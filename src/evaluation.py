@@ -45,16 +45,21 @@ def evaluate_model(model, X_test, y_test, model_name="Model"):
         'y_prob': y_prob
     }
 
-def plot_confusion_matrix(cm, model_name="Model"):
+def plot_confusion_matrix(cm, model_name="Model", save_path=None):
     plt.figure(figsize=(6, 5))
     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
     plt.title(f'Confusion Matrix - {model_name}')
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
     plt.tight_layout()
-    plt.show()
+    if save_path:
+        plt.savefig(save_path)
+        print(f"Plot saved to {save_path}")
+        plt.close()
+    else:
+        plt.show()
 
-def plot_roc_curve(y_test, y_prob, model_name="Model"):
+def plot_roc_curve(y_test, y_prob, model_name="Model", save_path=None):
     fpr, tpr, thresholds = roc_curve(y_test, y_prob)
     roc_auc = auc(fpr, tpr)
     
@@ -67,9 +72,14 @@ def plot_roc_curve(y_test, y_prob, model_name="Model"):
     plt.ylabel('True Positive Rate')
     plt.title(f'ROC - {model_name}')
     plt.legend(loc="lower right")
-    plt.show()
+    if save_path:
+        plt.savefig(save_path)
+        print(f"Plot saved to {save_path}")
+        plt.close()
+    else:
+        plt.show()
 
-def compare_models(metrics_list):
+def compare_models(metrics_list, save_dir=None):
     """
     Plots comparison bar charts for multiple models.
     """
@@ -83,4 +93,10 @@ def compare_models(metrics_list):
         plt.title(f'Model Comparison: {metric.capitalize()}')
         plt.xticks(rotation=45)
         plt.tight_layout()
-        plt.show()
+        if save_dir:
+            path = f"{save_dir}/comparison_{metric}.png"
+            plt.savefig(path)
+            print(f"Plot saved to {path}")
+            plt.close()
+        else:
+            plt.show()

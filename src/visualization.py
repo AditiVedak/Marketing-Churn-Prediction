@@ -3,7 +3,7 @@ import seaborn as sns
 import pandas as pd
 import numpy as np
 
-def plot_null_values(df):
+def plot_null_values(df, save_path=None):
     count_null_df = pd.DataFrame({
         'columns': df.columns,
         'percentage_null_values': round(df.isna().sum() * 100 / len(df), 2)
@@ -14,16 +14,26 @@ def plot_null_values(df):
     plt.title('Percentage of null values with respect to Features')
     plt.xticks(rotation=45)
     plt.tight_layout()
-    plt.show()
+    if save_path:
+        plt.savefig(save_path)
+        print(f"Plot saved to {save_path}")
+        plt.close()
+    else:
+        plt.show()
 
-def plot_correlation(df):
+def plot_correlation(df, save_path=None):
     plt.figure(figsize=(20, 10))
     sns.heatmap(df.corr(), annot=True, cmap='coolwarm', linewidths=0.5)
     plt.title('Correlation Matrix')
     plt.tight_layout()
-    plt.show()
+    if save_path:
+        plt.savefig(save_path)
+        print(f"Plot saved to {save_path}")
+        plt.close()
+    else:
+        plt.show()
 
-def plot_feature_importance(model, feature_names, model_name="Model"):
+def plot_feature_importance(model, feature_names, model_name="Model", save_path=None):
     if hasattr(model, 'feature_importances_'):
         importances = model.feature_importances_
         indices = np.argsort(importances)
@@ -34,6 +44,11 @@ def plot_feature_importance(model, feature_names, model_name="Model"):
         plt.yticks(range(len(indices)), [feature_names[i] for i in indices])
         plt.xlabel('Relative Importance')
         plt.tight_layout()
-        plt.show()
+        if save_path:
+            plt.savefig(save_path)
+            print(f"Plot saved to {save_path}")
+            plt.close()
+        else:
+            plt.show()
     else:
         print(f"{model_name} does not provide feature importances.")
