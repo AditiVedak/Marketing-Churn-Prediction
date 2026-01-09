@@ -163,10 +163,3 @@ F1 Score: 0.9349
 ROC-AUC: 0.9320
 ```
 ---
-## Key Highlights for Recruiters
-
-* Notebook refactored into modular Python project
-* Proper handling of imbalanced data
-* Multiple models with fair comparison
-* Cross-validation + hyperparameter tuning
-* Clean, reproducible, production-ready code
